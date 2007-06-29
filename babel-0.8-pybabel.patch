@@ -1,0 +1,83 @@
+Index: /trunk/doc/cmdline.txt
+===================================================================
+--- /trunk/doc/cmdline.txt (revision 184)
++++ /trunk/doc/cmdline.txt (revision 192)
+@@ -15,8 +15,8 @@
+ 
+ 
+-When properly installed, Babel provides a script called ``babel``::
++When properly installed, Babel provides a script called ``pybabel``::
+ 
+-    $ babel --help
+-    usage: babel subcommand [options] [args]
++    $ pybabel --help
++    usage: pybabel subcommand [options] [args]
+ 
+     options:
+@@ -30,6 +30,6 @@
+       update      update existing message catalogs from a POT file
+ 
+-The ``babel`` script provides a number of sub-commands that do the actual work.
+-Those sub-commands are described below.
++The ``pybabel`` script provides a number of sub-commands that do the actual
++work. Those sub-commands are described below.
+ 
+ 
+@@ -40,6 +40,6 @@
+ binary MO files::
+ 
+-    $ babel compile --help
+-    usage: babel compile [options] 
++    $ pybabel compile --help
++    usage: pybabel compile [options] 
+     
+     compile message catalogs to MO files
+@@ -77,6 +77,6 @@
+ a collection of source files::
+ 
+-    $ babel extract --help
+-    usage: babel extract [options] dir1 <dir2> ...
++    $ pybabel extract --help
++    usage: pybabel extract [options] dir1 <dir2> ...
+     
+     extract messages from source files and generate a POT file
+@@ -119,6 +119,6 @@
+ template file::
+ 
+-    $ babel init --help
+-    usage: babel init [options] 
++    $ pybabel init --help
++    usage: pybabel init [options] 
+     
+     create new message catalogs from a POT file
+@@ -153,6 +153,6 @@
+ a PO template file::
+ 
+-    $ babel update --help
+-    usage: babel update [options] 
++    $ pybabel update --help
++    usage: pybabel update [options] 
+     
+     update existing message catalogs from a POT file
+Index: /trunk/ChangeLog
+===================================================================
+--- /trunk/ChangeLog (revision 190)
++++ /trunk/ChangeLog (revision 192)
+@@ -7,4 +7,6 @@
+  * Added compilation of message catalogs to MO files.
+  * Added updating of message catalogs from POT files.
++ * The name of the command-line script has been changed from just "babel" to
++   "pybabel" to avoid a conflict with the OpenBabel project (ticket #34).
+ 
+ 
+Index: /trunk/setup.py
+===================================================================
+--- /trunk/setup.py (revision 184)
++++ /trunk/setup.py (revision 192)
+@@ -136,5 +136,5 @@
+     entry_points = """
+     [console_scripts]
+-    babel = babel.messages.frontend:main
++    pybabel = babel.messages.frontend:main
+     
+     [distutils.commands]
