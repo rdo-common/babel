@@ -2,7 +2,7 @@
 
 Name:           babel
 Version:        0.8
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
@@ -11,7 +11,7 @@ URL:            http://babel.edgewall.org/
 Source0:        http://ftp.edgewall.com/pub/babel/Babel-%{version}.tar.bz2
 # Upstream patch:
 # http://babel.edgewall.org/changeset/192?format=diff&new=192
-Patch0:         babel-0.8-pybabel.patch
+Patch0:         0001-Rename-command-line-script-to-avoid-conflict-with-th.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -68,6 +68,9 @@ rm -rf %{buildroot}
 %{python_sitelib}/*
 
 %changelog
+* Fri Jun 29 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.8-3
+- Replace patch with one that actually applies.
+
 * Fri Jun 29 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.8-2
 - Apply upstream patch to rename command line script to "pybabel" - BZ#246208
 
