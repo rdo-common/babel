@@ -43,7 +43,7 @@ Babel is composed of two major parts:
 
 %prep
 %setup0 -q -n Babel-%{version}
-%path0 -p1
+%patch0 -p1
 chmod a-x babel/messages/frontend.py doc/logo.png doc/logo_small.png
 %{__sed} -i -e '/^#!/,1d' babel/messages/frontend.py
 
