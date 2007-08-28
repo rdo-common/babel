@@ -2,7 +2,7 @@
 
 Name:           babel
 Version:        0.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
@@ -13,7 +13,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 BuildRequires:  python-devel
-BuildRequires:  python-setuptools
+BuildRequires:  python-setuptools-devel
 Requires:       python-babel
 
 %description
@@ -64,6 +64,9 @@ rm -rf %{buildroot}
 %{python_sitelib}/*
 
 %changelog
+* Tue Aug 28 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.9-2
+- BR python-setuptools-devel
+
 * Mon Aug 27 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.9-1
 - Update to 0.9
 
