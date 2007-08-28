@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           babel
-Version:        0.8.1
+Version:        0.9
 Release:        1%{?dist}
 Summary:        Tools for internationalizing Python applications
 
@@ -64,6 +64,9 @@ rm -rf %{buildroot}
 %{python_sitelib}/*
 
 %changelog
+* Mon Aug 27 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.9-1
+- Update to 0.9
+
 * Mon Jul  2 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.8.1-1
 - Update to 0.8.1
 - Remove upstreamed patch.
