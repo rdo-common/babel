@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           babel
-Version:        0.9
-Release:        2%{?dist}
+Version:        0.9.1
+Release:        1%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
@@ -64,6 +64,9 @@ rm -rf %{buildroot}
 %{python_sitelib}/*
 
 %changelog
+* Sun Dec 16 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.9.1-1
+- Update to 0.9.1
+
 * Tue Aug 28 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.9-2
 - BR python-setuptools-devel
 
