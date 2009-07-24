@@ -2,7 +2,7 @@
 
 Name:           babel
 Version:        0.9.4
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
@@ -65,6 +65,9 @@ rm -rf %{buildroot}
 %{python_sitelib}/*
 
 %changelog
+* Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+
 * Sat Mar 28 2009 Robert Scheck <robert@fedoraproject.org> - 0.9.4-4
 - Added missing requires to python-setuptools for pkg_resources
 
