@@ -1,14 +1,14 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           babel
-Version:        0.9.4
-Release:        5%{?dist}
+Version:        0.9.5
+Release:        1%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
 License:        BSD
 URL:            http://babel.edgewall.org/
-Source0:        http://ftp.edgewall.com/pub/babel/Babel-%{version}.tar.bz2
+Source0:        http://ftp.edgewall.com/pub/babel/Babel-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -65,6 +65,18 @@ rm -rf %{buildroot}
 %{python_sitelib}/*
 
 %changelog
+* Wed Apr  7 2010 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.9.5-1
+- This release contains a small number of bugfixes over the 0.9.4
+- release.
+- 
+- What's New:
+- -----------
+- * Fixed the case where messages containing square brackets would break
+-  with an unpack error
+- * Fuzzy matching regarding plurals should *NOT* be checked against
+-  len(message.id) because this is always 2, instead, it's should be
+-  checked against catalog.num_plurals (ticket #212).
+
 * Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.4-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
