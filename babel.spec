@@ -1,8 +1,10 @@
-%{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%if 0%{?fedora} > 12 || 0%{?rhel} > 5
+%global with_python3 1
+%endif
 
 Name:           babel
 Version:        0.9.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
@@ -12,10 +14,19 @@ Source0:        http://ftp.edgewall.com/pub/babel/Babel-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
+
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools-devel
+
 Requires:       python-babel
 Requires:       python-setuptools
+
+%if 0%{?with_python3}
+BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
+# needed for 2to3
+BuildRequires:  python-tools
+%endif
 
 %description
 Babel is composed of two major parts:
@@ -39,18 +50,51 @@ Babel is composed of two major parts:
   providing access to various locale display names, localized number
   and date formatting, etc.
 
+%if 0%{?with_python3}
+%package -n python3-babel
+Summary:        Library for internationalizing Python applications
+Group:          Development/Languages
+
+%description -n python3-babel
+Babel is composed of two major parts:
+
+* tools to build and work with gettext message catalogs
+
+* a Python interface to the CLDR (Common Locale Data Repository),
+  providing access to various locale display names, localized number
+  and date formatting, etc.
+%endif
+
 %prep
 %setup0 -q -n Babel-%{version}
 chmod a-x babel/messages/frontend.py doc/logo.png doc/logo_small.png
 %{__sed} -i -e '/^#!/,1d' babel/messages/frontend.py
 
+%if 0%{?with_python3}
+rm -rf %{py3dir}
+cp -r . %{py3dir}
+2to3 --write --nobackup %{py3dir}
+%endif
+
 %build
 %{__python} setup.py build
 
+%if 0%{?with_python3}
+pushd %{py3dir}
+%{__python3} setup.py build
+popd
+%endif
+
 %install
 rm -rf %{buildroot}
-%{__python} setup.py install -O1 --skip-build --root %{buildroot}
+%{__python} setup.py install --skip-build --no-compile --root %{buildroot}
  
+%if 0%{?with_python3}
+pushd %{py3dir}
+%{__python3} setup.py install --skip-build --no-compile --root %{buildroot}
+popd
+%endif
+
 %clean
 rm -rf %{buildroot}
 
@@ -62,9 +106,21 @@ rm -rf %{buildroot}
 %files -n python-babel
 %defattr(-,root,root,-)
 %doc doc
-%{python_sitelib}/*
+%{python_sitelib}/Babel-%{version}py*.egg-info
+%{python_sitelib}/babel
+
+%if 0%{?with_python3}
+%files -n python3-babel
+%defattr(-,root,root,-)
+%doc doc
+%{python_sitelib}/Babel-%{version}py*.egg-info
+%{python_sitelib}/babel
+%endif
 
 %changelog
+* Thu Aug 26 2010 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.9.5-3
+- Add python3 subpackage
+
 * Wed Jul 21 2010 David Malcolm <dmalcolm@redhat.com> - 0.9.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Features/Python_2.7/MassRebuild
 
