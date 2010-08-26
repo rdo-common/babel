@@ -113,8 +113,8 @@ rm -rf %{buildroot}
 %files -n python3-babel
 %defattr(-,root,root,-)
 %doc doc
-%{python_sitelib}/Babel-%{version}-py*.egg-info
-%{python_sitelib}/babel
+%{python3_sitelib}/Babel-%{version}-py*.egg-info
+%{python3_sitelib}/babel
 %endif
 
 %changelog
