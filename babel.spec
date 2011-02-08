@@ -4,7 +4,7 @@
 
 Name:           babel
 Version:        0.9.5
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
@@ -118,6 +118,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Feb 07 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Thu Aug 26 2010 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.9.5-3
 - Add python3 subpackage
 
