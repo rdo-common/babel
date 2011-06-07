@@ -3,8 +3,8 @@
 %endif
 
 Name:           babel
-Version:        0.9.5
-Release:        4%{?dist}
+Version:        0.9.6
+Release:        1%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
@@ -118,6 +118,37 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Jun 07 2011 Nils Philippsen <nils@redhat.com> - 0.9.6-1
+- version 0.9.6:
+  * Backport r493-494: documentation typo fixes.
+  * Make the CLDR import script work with Python 2.7.
+  * Fix various typos.
+  * Fixed Python 2.3 compatibility (ticket #146, #233).
+  * Sort output of list-locales.
+  * Make the POT-Creation-Date of the catalog being updated equal to
+    POT-Creation-Date of the template used to update (ticket #148).
+  * Use a more explicit error message if no option or argument (command) is
+    passed to pybabel (ticket #81).
+  * Keep the PO-Revision-Date if it is not the default value (ticket #148).
+  * Make --no-wrap work by reworking --width's default and mimic xgettext's
+    behaviour of always wrapping comments (ticket #145).
+  * Fixed negative offset handling of Catalog._set_mime_headers (ticket #165).
+  * Add --project and --version options for commandline (ticket #173).
+  * Add a __ne__() method to the Local class.
+  * Explicitly sort instead of using sorted() and don't assume ordering
+    (Python 2.3 and Jython compatibility).
+  * Removed ValueError raising for string formatting message checkers if the
+    string does not contain any string formattings (ticket #150).
+  * Fix Serbian plural forms (ticket #213).
+  * Small speed improvement in format_date() (ticket #216).
+  * Fix number formatting for locales where CLDR specifies alt or draft
+    items (ticket #217)
+  * Fix bad check in format_time (ticket #257, reported with patch and tests by
+    jomae)
+  * Fix so frontend.CommandLineInterface.run does not accumulate logging
+    handlers (#227, reported with initial patch by dfraser)
+  * Fix exception if environment contains an invalid locale setting (#200)
+
 * Mon Feb 07 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.5-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
@@ -130,7 +161,7 @@ rm -rf %{buildroot}
 * Wed Apr  7 2010 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.9.5-1
 - This release contains a small number of bugfixes over the 0.9.4
 - release.
-- 
+-
 - What's New:
 - -----------
 - * Fixed the case where messages containing square brackets would break
