@@ -87,13 +87,15 @@ popd
 
 %install
 rm -rf %{buildroot}
-%{__python} setup.py install --skip-build --no-compile --root %{buildroot}
- 
+# install python3 build before python2 build so executables from the former
+# don't overwrite those from the latter
 %if 0%{?with_python3}
 pushd %{py3dir}
 %{__python3} setup.py install --skip-build --no-compile --root %{buildroot}
 popd
 %endif
+
+%{__python} setup.py install --skip-build --no-compile --root %{buildroot}
 
 %clean
 rm -rf %{buildroot}
@@ -148,6 +150,7 @@ rm -rf %{buildroot}
   * Fix so frontend.CommandLineInterface.run does not accumulate logging
     handlers (#227, reported with initial patch by dfraser)
   * Fix exception if environment contains an invalid locale setting (#200)
+- install python2 rather than python3 executable (#710880)
 
 * Mon Feb 07 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.5-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
