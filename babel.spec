@@ -1,10 +1,9 @@
-%if 0%{?fedora} > 12 || 0%{?rhel} > 5
-%global with_python3 1
-%endif
+# Babel < 1.0 does NOT work with Python 3, even if 2to3 is used on the code
+%global with_python3 0
 
 Name:           babel
 Version:        0.9.6
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
@@ -40,6 +39,9 @@ Babel is composed of two major parts:
 %package -n python-babel
 Summary:        Library for internationalizing Python applications
 Group:          Development/Languages
+# previously Fedora shipped a broken subpackage python3-babel which is gone now
+# (until upstream releases a version with Python 3 support)
+Obsoletes:      python3-babel < 0.9.6-4
 
 %description -n python-babel
 Babel is composed of two major parts:
@@ -120,6 +122,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Aug 01 2012 Felix Schwarz <felix.schwarz@oss.schwarz.eu> - 0.9.6-4
+- disable building of non-functional python3 subpackage (#761583)
+
 * Wed Jul 18 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.6-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
