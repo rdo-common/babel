@@ -3,7 +3,7 @@
 
 Name:           babel
 Version:        0.9.6
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
@@ -122,6 +122,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Aug 04 2012 David Malcolm <dmalcolm@redhat.com> - 0.9.6-5
+- rebuild for https://fedoraproject.org/wiki/Features/Python_3.3
+
 * Wed Aug 01 2012 Felix Schwarz <felix.schwarz@oss.schwarz.eu> - 0.9.6-4
 - disable building of non-functional python3 subpackage (#761583)
 
