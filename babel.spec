@@ -3,7 +3,7 @@
 
 Name:           babel
 Version:        0.9.6
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
@@ -99,6 +99,15 @@ popd
 
 %{__python} setup.py install --skip-build --no-compile --root %{buildroot}
 
+%check
+%{__python} setup.py test
+
+%if 0%{?with_python3}
+pushd %{py3dir}
+%{__python3} setup.py test
+popd
+%endif
+
 %clean
 rm -rf %{buildroot}
 
@@ -122,6 +131,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Oct 18 2012 Nils Philippsen <nils@redhat.com> - 0.9.6-6
+- run tests in %%check
+
 * Sat Aug 04 2012 David Malcolm <dmalcolm@redhat.com> - 0.9.6-5
 - rebuild for https://fedoraproject.org/wiki/Features/Python_3.3
 
