@@ -16,6 +16,7 @@ BuildArch:      noarch
 
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools-devel
+BuildRequires:  pytz
 
 Requires:       python-babel
 Requires:       python-setuptools
@@ -133,6 +134,7 @@ rm -rf %{buildroot}
 %changelog
 * Thu Oct 18 2012 Nils Philippsen <nils@redhat.com> - 0.9.6-6
 - run tests in %%check
+- add pytz build requirement for tests
 
 * Sat Aug 04 2012 David Malcolm <dmalcolm@redhat.com> - 0.9.6-5
 - rebuild for https://fedoraproject.org/wiki/Features/Python_3.3
