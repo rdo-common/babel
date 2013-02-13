@@ -3,7 +3,7 @@
 
 Name:           babel
 Version:        0.9.6
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
@@ -132,6 +132,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Feb 13 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.6-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+
 * Thu Oct 18 2012 Nils Philippsen <nils@redhat.com> - 0.9.6-6
 - run tests in %%check
 - add pytz build requirement for tests
