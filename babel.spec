@@ -3,7 +3,7 @@
 
 Name:           babel
 Version:        0.9.6
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
@@ -68,6 +68,17 @@ Babel is composed of two major parts:
   and date formatting, etc.
 %endif
 
+%package doc
+Summary:        Documentation for Babel
+Group:          Development/Languages
+Provides:       python-babel-doc = %{version}-%{release}
+%if 0%{?with_python3}
+Provides:       python3-babel-doc = %{version}-%{release}
+%endif
+
+%description doc
+Documentation for Babel
+
 %prep
 %setup0 -q -n Babel-%{version}
 chmod a-x babel/messages/frontend.py doc/logo.png doc/logo_small.png
@@ -119,19 +130,23 @@ rm -rf %{buildroot}
 
 %files -n python-babel
 %defattr(-,root,root,-)
-%doc doc
 %{python_sitelib}/Babel-%{version}-py*.egg-info
 %{python_sitelib}/babel
 
 %if 0%{?with_python3}
 %files -n python3-babel
 %defattr(-,root,root,-)
-%doc doc
 %{python3_sitelib}/Babel-%{version}-py*.egg-info
 %{python3_sitelib}/babel
 %endif
 
+%files doc
+%doc doc/*
+
 %changelog
+* Wed Jun 26 2013 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.9.6-8
+- split documentation off to a separate subpackage
+
 * Wed Feb 13 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.6-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
