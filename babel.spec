@@ -3,7 +3,7 @@
 
 Name:           babel
 Version:        0.9.6
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
@@ -144,6 +144,9 @@ rm -rf %{buildroot}
 %doc doc/*
 
 %changelog
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.6-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
 * Wed Jun 26 2013 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.9.6-8
 - split documentation off to a separate subpackage
 
