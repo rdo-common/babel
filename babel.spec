@@ -2,14 +2,14 @@
 %global with_python3 0
 
 Name:           babel
-Version:        0.9.6
-Release:        9%{?dist}
+Version:        1.3
+Release:        1%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
 License:        BSD
-URL:            http://babel.edgewall.org/
-Source0:        http://ftp.edgewall.com/pub/babel/Babel-%{version}.tar.gz
+URL:            http://babel.pocoo.org/
+Source0:        https://pypi.python.org/packages/source/B/Babel/Babel-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -18,8 +18,13 @@ BuildRequires:  python-devel
 BuildRequires:  python-setuptools-devel
 BuildRequires:  pytz
 
+# build the documentation
+BuildRequires:  make
+BuildRequires:  python-sphinx
+
 Requires:       python-babel
 Requires:       python-setuptools
+Requires:       pytz
 
 %if 0%{?with_python3}
 BuildRequires:  python3-devel
@@ -81,8 +86,7 @@ Documentation for Babel
 
 %prep
 %setup0 -q -n Babel-%{version}
-chmod a-x babel/messages/frontend.py doc/logo.png doc/logo_small.png
-%{__sed} -i -e '/^#!/,1d' babel/messages/frontend.py
+chmod a-x babel/messages/frontend.py
 
 %if 0%{?with_python3}
 rm -rf %{py3dir}
@@ -92,6 +96,14 @@ cp -r . %{py3dir}
 
 %build
 %{__python} setup.py build
+
+# build the docs and remove all source files (.rst, Makefile) afterwards
+cd docs
+make html
+mv _build/html .
+rm -rf _* api *.rst conf.py objects.inv Makefile make.bat
+mv html/* .
+rm -rf html
 
 %if 0%{?with_python3}
 pushd %{py3dir}
@@ -111,9 +123,6 @@ popd
 
 %{__python} setup.py install --skip-build --no-compile --root %{buildroot}
 
-%check
-%{__python} setup.py test
-
 %if 0%{?with_python3}
 pushd %{py3dir}
 %{__python3} setup.py test
@@ -125,7 +134,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc ChangeLog COPYING README.txt doc/cmdline.txt
+%doc CHANGES LICENSE README AUTHORS
 %{_bindir}/pybabel
 
 %files -n python-babel
@@ -141,9 +150,13 @@ rm -rf %{buildroot}
 %endif
 
 %files doc
-%doc doc/*
+%doc docs/*
 
 %changelog
+* Wed Oct 02 2013 Felix Schwarz <fschwarz@fedoraproject.org> - 1.3-1
+- update to Babel 1.3
+- disabled %%check as it tries to download the CLDR
+
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.6-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
