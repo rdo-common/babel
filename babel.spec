@@ -1,9 +1,11 @@
-# Babel < 1.0 does NOT work with Python 3, even if 2to3 is used on the code
-%global with_python3 0
+# only Fedora 20 has Babel >= 1.0 which is the first version supporting Python 3
+%if 0%{?fedora} >= 20
+%global with_python3 1
+%endif
 
 Name:           babel
 Version:        1.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
@@ -29,8 +31,7 @@ Requires:       pytz
 %if 0%{?with_python3}
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
-# needed for 2to3
-BuildRequires:  python-tools
+BuildRequires:  python3-pytz
 %endif
 
 %description
@@ -45,9 +46,6 @@ Babel is composed of two major parts:
 %package -n python-babel
 Summary:        Library for internationalizing Python applications
 Group:          Development/Languages
-# previously Fedora shipped a broken subpackage python3-babel which is gone now
-# (until upstream releases a version with Python 3 support)
-Obsoletes:      python3-babel < 0.9.6-4
 
 %description -n python-babel
 Babel is composed of two major parts:
@@ -62,6 +60,10 @@ Babel is composed of two major parts:
 %package -n python3-babel
 Summary:        Library for internationalizing Python applications
 Group:          Development/Languages
+
+Requires:       python3-babel
+Requires:       python3-setuptools
+Requires:       python3-pytz
 
 %description -n python3-babel
 Babel is composed of two major parts:
@@ -91,7 +93,6 @@ chmod a-x babel/messages/frontend.py
 %if 0%{?with_python3}
 rm -rf %{py3dir}
 cp -r . %{py3dir}
-2to3 --write --nobackup %{py3dir}
 %endif
 
 %build
@@ -153,6 +154,9 @@ rm -rf %{buildroot}
 %doc docs/*
 
 %changelog
+* Sun Oct 06 2013 Felix Schwarz <fschwarz@fedoraproject.org> - 1.3-2
+- enable python3 subpackage
+
 * Wed Oct 02 2013 Felix Schwarz <fschwarz@fedoraproject.org> - 1.3-1
 - update to Babel 1.3
 - disabled %%check as it tries to download the CLDR
