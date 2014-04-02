@@ -5,7 +5,7 @@
 
 Name:           babel
 Version:        1.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
@@ -26,7 +26,6 @@ BuildRequires:  python-sphinx
 
 Requires:       python-babel
 Requires:       python-setuptools
-Requires:       pytz
 
 %if 0%{?with_python3}
 BuildRequires:  python3-devel
@@ -47,6 +46,9 @@ Babel is composed of two major parts:
 Summary:        Library for internationalizing Python applications
 Group:          Development/Languages
 
+Requires:       python-setuptools
+Requires:       pytz
+
 %description -n python-babel
 Babel is composed of two major parts:
 
@@ -61,7 +63,6 @@ Babel is composed of two major parts:
 Summary:        Library for internationalizing Python applications
 Group:          Development/Languages
 
-Requires:       python3-babel
 Requires:       python3-setuptools
 Requires:       python3-pytz
 
@@ -154,6 +155,9 @@ rm -rf %{buildroot}
 %doc docs/*
 
 %changelog
+* Wed Apr 02 2014 Nils Philippsen <nils@redhat.com> - 1.3-3
+- fix dependencies (#1083470)
+
 * Sun Oct 06 2013 Felix Schwarz <fschwarz@fedoraproject.org> - 1.3-2
 - enable python3 subpackage
 
