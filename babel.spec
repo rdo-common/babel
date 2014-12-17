@@ -5,18 +5,19 @@
 
 Name:           babel
 Version:        1.3
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
 License:        BSD
 URL:            http://babel.pocoo.org/
 Source0:        https://pypi.python.org/packages/source/B/Babel/Babel-%{version}.tar.gz
+Patch0:         babel-remove-pytz-version.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  python-devel
+BuildRequires:  python2-devel
 BuildRequires:  python-setuptools
 BuildRequires:  pytz
 
@@ -89,6 +90,8 @@ Documentation for Babel
 
 %prep
 %setup0 -q -n Babel-%{version}
+%patch0 -p1
+
 chmod a-x babel/messages/frontend.py
 
 %if 0%{?with_python3}
@@ -155,8 +158,11 @@ rm -rf %{buildroot}
 %doc docs/*
 
 %changelog
+* Wed Dec 17 2014 Toshio Kuratomi <toshio@fedoraproject.org> - 1.3-7
+- Remove pytz version requirement in egginfo as it confuses newer setuptools
+
 * Mon Jun 30 2014 Toshio Kuratomi <toshio@fedoraproject.org> - 1.3-6
-- Change python-setuptools-devel BR into pyhton-setuptools
+- Change python-setuptools-devel BR into python-setuptools
 
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
