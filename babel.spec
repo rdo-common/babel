@@ -5,7 +5,7 @@
 
 Name:           babel
 Version:        1.3
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
@@ -158,6 +158,9 @@ rm -rf %{buildroot}
 %doc docs/*
 
 %changelog
+* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Wed Dec 17 2014 Toshio Kuratomi <toshio@fedoraproject.org> - 1.3-7
 - Remove pytz version requirement in egginfo as it confuses newer setuptools
 
