@@ -132,8 +132,8 @@ popd
 # On fedora 24 and beyond we want to use the python3 version by default
 # (Only reason earlier versions aren't switched is that we didn't push it out
 # before the release)
-%if 0%{?fedora} >= 24
-mv ./pybabel.py3 %{buildroot}/%{_bindir}/pybabel
+%if 0%{?with_python3} && 0%{?fedora} >= 24
+mv %{py3dir}/pybabel.py3 %{buildroot}/%{_bindir}/pybabel
 %endif
 
 %check
