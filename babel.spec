@@ -5,7 +5,7 @@
 
 Name:           babel
 Version:        1.3
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
@@ -123,10 +123,21 @@ rm -rf %{buildroot}
 %if 0%{?with_python3}
 pushd %{py3dir}
 %{__python3} setup.py install --skip-build --no-compile --root %{buildroot}
+mv %{buildroot}/%{_bindir}/pybabel ./pybabel.py3
 popd
 %endif
 
 %{__python} setup.py install --skip-build --no-compile --root %{buildroot}
+
+# On fedora 24 and beyond we want to use the python3 version by default
+# (Only reason earlier versions aren't switched is that we didn't push it out
+# before the release)
+%if 0%{?fedora} >= 24
+mv ./pybabel.py3 %{buildroot}/%{_bindir}/pybabel
+%endif
+
+%check
+%{__python2} setup.py test
 
 %if 0%{?with_python3}
 pushd %{py3dir}
@@ -158,6 +169,10 @@ rm -rf %{buildroot}
 %doc docs/*
 
 %changelog
+* Wed Nov  4 2015 Toshio Kuratomi <toshio@fedoraproject.org> - 1.3-9
+- Install the python3 version of pybabel on Fedora 24+ to match with Fedora's
+  default python version
+
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
