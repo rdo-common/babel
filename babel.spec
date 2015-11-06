@@ -3,9 +3,18 @@
 %global with_python3 1
 %endif
 
+# On fedora 24 and beyond we want to use the python3 version by default
+# (Only reason earlier versions aren't switched is that we didn't push it out
+# before the release)
+%if 0%{?with_python3} && 0%{?fedora} >= 24
+%global default_python 3
+%else
+%global default_python 2
+%endif
+
 Name:           babel
 Version:        1.3
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
@@ -25,8 +34,13 @@ BuildRequires:  pytz
 BuildRequires:  make
 BuildRequires:  python-sphinx
 
+%if 0%{default_python} >= 3
+Requires:       python3-babel
+Requires:       python3-setuptools
+%else
 Requires:       python-babel
 Requires:       python-setuptools
+%endif
 
 %if 0%{?with_python3}
 BuildRequires:  python3-devel
@@ -118,8 +132,6 @@ popd
 
 %install
 rm -rf %{buildroot}
-# install python3 build before python2 build so executables from the former
-# don't overwrite those from the latter
 %if 0%{?with_python3}
 pushd %{py3dir}
 %{__python3} setup.py install --skip-build --no-compile --root %{buildroot}
@@ -129,10 +141,7 @@ popd
 
 %{__python} setup.py install --skip-build --no-compile --root %{buildroot}
 
-# On fedora 24 and beyond we want to use the python3 version by default
-# (Only reason earlier versions aren't switched is that we didn't push it out
-# before the release)
-%if 0%{?with_python3} && 0%{?fedora} >= 24
+%if 0%{default_python} >= 3
 mv %{py3dir}/pybabel.py3 %{buildroot}/%{_bindir}/pybabel
 %endif
 
@@ -160,6 +169,11 @@ rm -rf %{buildroot}
 %doc docs/*
 
 %changelog
+* Fri Nov  6 2015 Toshio Kuratomi <toshio@fedoraproject.org> - 1.3-10
+- Also make sure that the babel package that has pybabel depends on the correct
+  packages (python2 packages on F23 or less and python3 packages on F24 and
+  greater.)
+
 * Wed Nov  4 2015 Toshio Kuratomi <toshio@fedoraproject.org> - 1.3-9
 - Install the python3 version of pybabel on Fedora 24+ to match with Fedora's
   default python version
