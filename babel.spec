@@ -14,7 +14,7 @@
 
 Name:           babel
 Version:        1.3
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
@@ -169,6 +169,9 @@ rm -rf %{buildroot}
 %doc docs/*
 
 %changelog
+* Tue Nov 10 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3-11
+- Rebuilt for https://fedoraproject.org/wiki/Changes/python3.5
+
 * Fri Nov  6 2015 Toshio Kuratomi <toshio@fedoraproject.org> - 1.3-10
 - Also make sure that the babel package that has pybabel depends on the correct
   packages (python2 packages on F23 or less and python3 packages on F24 and
