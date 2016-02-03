@@ -14,7 +14,7 @@
 
 Name:           babel
 Version:        1.3
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
@@ -169,6 +169,9 @@ rm -rf %{buildroot}
 %doc docs/*
 
 %changelog
+* Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
 * Tue Nov 10 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3-11
 - Rebuilt for https://fedoraproject.org/wiki/Changes/python3.5
 
