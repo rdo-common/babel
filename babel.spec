@@ -1,3 +1,5 @@
+%global srcname Babel
+%global sum Library for internationalizing Python applications
 
 # On fedora 24 and beyond we want to use the python3 version by default
 # (Only reason earlier versions aren't switched is that we didn't push it out
@@ -15,30 +17,31 @@ Summary:        Tools for internationalizing Python applications
 
 License:        BSD
 URL:            http://babel.pocoo.org/
-Source0:        https://pypi.python.org/packages/source/B/Babel/Babel-%{version}.tar.gz
+Source0:        https://pypi.python.org/packages/source/B/%{srcname}/%{srcname}-%{version}.tar.gz
 Patch0:         babel-remove-pytz-version.patch
 
 BuildArch:      noarch
 
 BuildRequires:  python2-devel
-BuildRequires:  python-setuptools
+BuildRequires:  python2-setuptools
 BuildRequires:  pytz
-
-# build the documentation
-BuildRequires:  make
-BuildRequires:  python-sphinx
-
-%if %{default_python} >= 3
-Requires:       python3-babel
-Requires:       python3-setuptools
-%else
-Requires:       python-babel
-Requires:       python-setuptools
-%endif
-
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-pytz
+
+# build the documentation
+BuildRequires:  make
+
+%if %{default_python} >= 3
+BuildRequires:  python3-sphinx
+Requires:       python3-babel
+Requires:       python3-setuptools
+%else
+BuildRequires:  python-sphinx
+Requires:       python2-babel
+Requires:       python2-setuptools
+%endif
+
 
 %description
 Babel is composed of two major parts:
@@ -49,14 +52,15 @@ Babel is composed of two major parts:
   providing access to various locale display names, localized number
   and date formatting, etc.
 
-%package -n python-babel
-Summary:        Library for internationalizing Python applications
-Group:          Development/Languages
+%package -n python2-babel
+Summary:        %sum
 
 Requires:       python-setuptools
 Requires:       pytz
 
-%description -n python-babel
+%python_provide python2-babel
+
+%description -n python2-babel
 Babel is composed of two major parts:
 
 * tools to build and work with gettext message catalogs
@@ -66,11 +70,12 @@ Babel is composed of two major parts:
   and date formatting, etc.
 
 %package -n python3-babel
-Summary:        Library for internationalizing Python applications
-Group:          Development/Languages
+Summary:        %sum
 
 Requires:       python3-setuptools
 Requires:       python3-pytz
+
+%python_provide python3-babel
 
 %description -n python3-babel
 Babel is composed of two major parts:
@@ -84,22 +89,18 @@ Babel is composed of two major parts:
 %package doc
 Summary:        Documentation for Babel
 Provides:       python-babel-doc = %{version}-%{release}
+Provides:       python2-babel-doc = %{version}-%{release}
 Provides:       python3-babel-doc = %{version}-%{release}
 
 %description doc
 Documentation for Babel
 
 %prep
-%setup0 -q -n Babel-%{version}
-%patch0 -p1
-
-chmod a-x babel/messages/frontend.py
-
-rm -rf %{py3dir}
-cp -r . %{py3dir}
+%autosetup -n %{srcname}-%{version}
 
 %build
-%{__python} setup.py build
+%py2_build
+%py3_build
 
 # build the docs and remove all source files (.rst, Makefile) afterwards
 cd docs
@@ -109,30 +110,26 @@ rm -rf _* api *.rst conf.py objects.inv Makefile make.bat
 mv html/* .
 rm -rf html
 
-pushd %{py3dir}
-%{__python3} setup.py build
-popd
-
 %install
-pushd %{py3dir}
-%{__python3} setup.py install --skip-build --no-compile --root %{buildroot}
-mv %{buildroot}/%{_bindir}/pybabel ./pybabel.py3
-popd
-
-%{__python} setup.py install --skip-build --no-compile --root %{buildroot}
-
 %if %{default_python} >= 3
-mv %{py3dir}/pybabel.py3 %{buildroot}/%{_bindir}/pybabel
+%py2_install
+%py3_install
+%else
+%py3_install
+%py2_install
 %endif
 
+%check
+%{__python2} setup.py test
+%{__python3} setup.py test
 
 %files
 %doc CHANGES LICENSE README AUTHORS
 %{_bindir}/pybabel
 
-%files -n python-babel
-%{python_sitelib}/Babel-%{version}-py*.egg-info
-%{python_sitelib}/babel
+%files -n python2-babel
+%{python2_sitelib}/Babel-%{version}-py*.egg-info
+%{python2_sitelib}/babel
 
 %files -n python3-babel
 %{python3_sitelib}/Babel-%{version}-py*.egg-info
@@ -146,6 +143,7 @@ mv %{py3dir}/pybabel.py3 %{buildroot}/%{_bindir}/pybabel
 - version 2.3.4
 - always build Python3 subpackages
 - remove obsolete packaging constructs
+- update to current Python packaging guidelines
 
 * Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
