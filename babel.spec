@@ -1,12 +1,8 @@
-# only Fedora 20 has Babel >= 1.0 which is the first version supporting Python 3
-%if 0%{?fedora} >= 20
-%global with_python3 1
-%endif
 
 # On fedora 24 and beyond we want to use the python3 version by default
 # (Only reason earlier versions aren't switched is that we didn't push it out
 # before the release)
-%if 0%{?with_python3} && 0%{?fedora} >= 24
+%if 0%{?fedora} >= 24
 %global default_python 3
 %else
 %global default_python 2
@@ -34,7 +30,7 @@ BuildRequires:  pytz
 BuildRequires:  make
 BuildRequires:  python-sphinx
 
-%if 0%{default_python} >= 3
+%if %{default_python} >= 3
 Requires:       python3-babel
 Requires:       python3-setuptools
 %else
@@ -42,11 +38,9 @@ Requires:       python-babel
 Requires:       python-setuptools
 %endif
 
-%if 0%{?with_python3}
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-pytz
-%endif
 
 %description
 Babel is composed of two major parts:
@@ -73,7 +67,6 @@ Babel is composed of two major parts:
   providing access to various locale display names, localized number
   and date formatting, etc.
 
-%if 0%{?with_python3}
 %package -n python3-babel
 Summary:        Library for internationalizing Python applications
 Group:          Development/Languages
@@ -89,15 +82,12 @@ Babel is composed of two major parts:
 * a Python interface to the CLDR (Common Locale Data Repository),
   providing access to various locale display names, localized number
   and date formatting, etc.
-%endif
 
 %package doc
 Summary:        Documentation for Babel
 Group:          Development/Languages
 Provides:       python-babel-doc = %{version}-%{release}
-%if 0%{?with_python3}
 Provides:       python3-babel-doc = %{version}-%{release}
-%endif
 
 %description doc
 Documentation for Babel
@@ -108,10 +98,8 @@ Documentation for Babel
 
 chmod a-x babel/messages/frontend.py
 
-%if 0%{?with_python3}
 rm -rf %{py3dir}
 cp -r . %{py3dir}
-%endif
 
 %build
 %{__python} setup.py build
@@ -124,24 +112,20 @@ rm -rf _* api *.rst conf.py objects.inv Makefile make.bat
 mv html/* .
 rm -rf html
 
-%if 0%{?with_python3}
 pushd %{py3dir}
 %{__python3} setup.py build
 popd
-%endif
 
 %install
 rm -rf %{buildroot}
-%if 0%{?with_python3}
 pushd %{py3dir}
 %{__python3} setup.py install --skip-build --no-compile --root %{buildroot}
 mv %{buildroot}/%{_bindir}/pybabel ./pybabel.py3
 popd
-%endif
 
 %{__python} setup.py install --skip-build --no-compile --root %{buildroot}
 
-%if 0%{default_python} >= 3
+%if %{default_python} >= 3
 mv %{py3dir}/pybabel.py3 %{buildroot}/%{_bindir}/pybabel
 %endif
 
@@ -158,12 +142,10 @@ rm -rf %{buildroot}
 %{python_sitelib}/Babel-%{version}-py*.egg-info
 %{python_sitelib}/babel
 
-%if 0%{?with_python3}
 %files -n python3-babel
 %defattr(-,root,root,-)
 %{python3_sitelib}/Babel-%{version}-py*.egg-info
 %{python3_sitelib}/babel
-%endif
 
 %files doc
 %doc docs/*
@@ -171,6 +153,7 @@ rm -rf %{buildroot}
 %changelog
 * Mon Apr 25 2016 Nils Philippsen <nils@redhat.com> - 2.3.4-1
 - version 2.3.4
+- always build Python3 subpackages
 
 * Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
