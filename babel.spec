@@ -13,12 +13,10 @@ Version:        2.3.4
 Release:        1%{?dist}
 Summary:        Tools for internationalizing Python applications
 
-Group:          Development/Languages
 License:        BSD
 URL:            http://babel.pocoo.org/
 Source0:        https://pypi.python.org/packages/source/B/Babel/Babel-%{version}.tar.gz
 Patch0:         babel-remove-pytz-version.patch
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
@@ -85,7 +83,6 @@ Babel is composed of two major parts:
 
 %package doc
 Summary:        Documentation for Babel
-Group:          Development/Languages
 Provides:       python-babel-doc = %{version}-%{release}
 Provides:       python3-babel-doc = %{version}-%{release}
 
@@ -117,7 +114,6 @@ pushd %{py3dir}
 popd
 
 %install
-rm -rf %{buildroot}
 pushd %{py3dir}
 %{__python3} setup.py install --skip-build --no-compile --root %{buildroot}
 mv %{buildroot}/%{_bindir}/pybabel ./pybabel.py3
@@ -129,21 +125,16 @@ popd
 mv %{py3dir}/pybabel.py3 %{buildroot}/%{_bindir}/pybabel
 %endif
 
-%clean
-rm -rf %{buildroot}
 
 %files
-%defattr(-,root,root,-)
 %doc CHANGES LICENSE README AUTHORS
 %{_bindir}/pybabel
 
 %files -n python-babel
-%defattr(-,root,root,-)
 %{python_sitelib}/Babel-%{version}-py*.egg-info
 %{python_sitelib}/babel
 
 %files -n python3-babel
-%defattr(-,root,root,-)
 %{python3_sitelib}/Babel-%{version}-py*.egg-info
 %{python3_sitelib}/babel
 
@@ -154,6 +145,7 @@ rm -rf %{buildroot}
 * Mon Apr 25 2016 Nils Philippsen <nils@redhat.com> - 2.3.4-1
 - version 2.3.4
 - always build Python3 subpackages
+- remove obsolete packaging constructs
 
 * Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
