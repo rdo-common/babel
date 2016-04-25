@@ -102,13 +102,19 @@ Documentation for Babel
 %py2_build
 %py3_build
 
-# build the docs and remove all source files (.rst, Makefile) afterwards
-cd docs
-make html
-mv _build/html .
-rm -rf _* api *.rst conf.py objects.inv Makefile make.bat
-mv html/* .
-rm -rf html
+BUILDDIR="$PWD/built-docs"
+rm -rf "$BUILDDIR"
+pushd docs
+make \
+%if %{default_python} >= 3
+    SPHINXBUILD=sphinx-build-3 \
+%else
+    SPHINXBUILD=sphinx-build \
+%endif
+    BUILDDIR="$BUILDDIR" \
+    html
+popd
+rm -f "$BUILDDIR/html/.buildinfo"
 
 %install
 %if %{default_python} >= 3
@@ -136,7 +142,7 @@ rm -rf html
 %{python3_sitelib}/babel
 
 %files doc
-%doc docs/*
+%doc built-docs/html/*
 
 %changelog
 * Mon Apr 25 2016 Nils Philippsen <nils@redhat.com> - 2.3.4-1
@@ -144,6 +150,7 @@ rm -rf html
 - always build Python3 subpackages
 - remove obsolete packaging constructs
 - update to current Python packaging guidelines
+- build docs non-destructively
 
 * Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
