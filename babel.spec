@@ -18,7 +18,7 @@ Summary:        Tools for internationalizing Python applications
 License:        BSD
 URL:            http://babel.pocoo.org/
 Source0:        https://pypi.python.org/packages/source/B/%{srcname}/%{srcname}-%{version}.tar.gz
-Patch0:         babel-remove-pytz-version.patch
+Patch0:         babel-2.3.4-remove-pytz-version.patch
 
 BuildArch:      noarch
 
@@ -154,6 +154,7 @@ rm -f "$BUILDDIR/html/.buildinfo"
 - build docs non-destructively
 - tag license file as %%license
 - use %%python_provide macro only if present
+- update remove-pytz-version patch
 
 * Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
