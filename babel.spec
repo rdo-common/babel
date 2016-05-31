@@ -17,7 +17,7 @@ Summary:        Tools for internationalizing Python applications
 
 License:        BSD
 URL:            http://babel.pocoo.org/
-Source0:        https://pypi.python.org/packages/source/B/%{srcname}/%{srcname}-%{version}.tar.gz
+Source0:        https://files.pythonhosted.org/packages/source/B/%{srcname}/%{srcname}-%{version}.tar.gz
 Patch0:         babel-2.3.4-remove-pytz-version.patch
 
 BuildArch:      noarch
@@ -149,6 +149,9 @@ export TZ=America/New_York
 %doc built-docs/html/*
 
 %changelog
+* Tue May 31 2016 Nils Philippsen <nils@redhat.com>
+- fix source URL
+
 * Mon Apr 25 2016 Nils Philippsen <nils@redhat.com> - 2.3.4-1
 - version 2.3.4
 - always build Python3 subpackages
