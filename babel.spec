@@ -10,9 +10,14 @@
 %global default_python 2
 %endif
 
+# There is some bootstrapping involved when upgrading Python 3
+# First of all we need babel (this package) to use sphinx
+# And pytest is at this point not yet ready
+%global bootstrap 1
+
 Name:           babel
 Version:        2.3.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 License:        BSD
@@ -28,14 +33,20 @@ BuildRequires:  python2-pytz
 BuildRequires:  python2-pytest
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
+%if !%{bootstrap}
 BuildRequires:  python3-pytz
 BuildRequires:  python3-pytest
+%endif
 
 # build the documentation
 BuildRequires:  make
 
 %if %{default_python} >= 3
+%if %{bootstrap}
+BuildRequires:  python-sphinx
+%else
 BuildRequires:  python3-sphinx
+%endif
 Requires:       python3-babel
 Requires:       python3-setuptools
 %else
@@ -108,7 +119,7 @@ BUILDDIR="$PWD/built-docs"
 rm -rf "$BUILDDIR"
 pushd docs
 make \
-%if %{default_python} >= 3
+%if %{default_python} >= 3 && !%{bootstrap}
     SPHINXBUILD=sphinx-build-3 \
 %else
     SPHINXBUILD=sphinx-build \
@@ -130,7 +141,9 @@ rm -f "$BUILDDIR/html/.buildinfo"
 %check
 export TZ=America/New_York
 %{__python2} setup.py test
+%if !%{bootstrap}
 %{__python3} setup.py test
+%endif
 
 %files
 %doc CHANGES AUTHORS
@@ -149,6 +162,10 @@ export TZ=America/New_York
 %doc built-docs/html/*
 
 %changelog
+* Tue Dec 13 2016 Miro Hrončok <mhroncok@redhat.com> - 2.3.4-3
+- Rebuild for Python 3.6
+- Add "bootstrap" conditions
+
 * Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.3.4-2
 - https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
 
