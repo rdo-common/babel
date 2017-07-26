@@ -17,7 +17,7 @@
 
 Name:           babel
 Version:        2.3.4
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 License:        BSD
@@ -162,6 +162,9 @@ export TZ=America/New_York
 %doc built-docs/html/*
 
 %changelog
+* Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.4-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
 * Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.4-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
