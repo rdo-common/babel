@@ -16,8 +16,8 @@
 %global bootstrap 0
 
 Name:           babel
-Version:        2.3.4
-Release:        7%{?dist}
+Version:        2.5.1
+Release:        1%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 License:        BSD
@@ -31,11 +31,13 @@ BuildRequires:  python2-devel
 BuildRequires:  python2-setuptools
 BuildRequires:  python2-pytz
 BuildRequires:  python2-pytest
+BuildRequires:  python2-freezegun
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 %if !%{bootstrap}
 BuildRequires:  python3-pytz
 BuildRequires:  python3-pytest
+BuildRequires:  python3-freezegun
 %endif
 
 # build the documentation
@@ -162,6 +164,9 @@ export TZ=America/New_York
 %doc built-docs/html/*
 
 %changelog
+* Fri Dec 15 2017 Felix Schwarz <fschwarz@fedoraproject.org> - 2.5.1-1
+- update to upstream version 2.5.1
+
 * Fri Dec 15 2017 Iryna Shcherbina <ishcherb@redhat.com> - 2.3.4-7
 - Update Python 2 dependency declarations to new packaging standards
   (See https://fedoraproject.org/wiki/FinalizingFedoraSwitchtoPython3)
