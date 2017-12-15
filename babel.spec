@@ -17,7 +17,7 @@
 
 Name:           babel
 Version:        2.3.4
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 License:        BSD
@@ -43,14 +43,14 @@ BuildRequires:  make
 
 %if %{default_python} >= 3
 %if %{bootstrap}
-BuildRequires:  python-sphinx
+BuildRequires:  python2-sphinx
 %else
 BuildRequires:  python3-sphinx
 %endif
 Requires:       python3-babel
 Requires:       python3-setuptools
 %else
-BuildRequires:  python-sphinx
+BuildRequires:  python2-sphinx
 Requires:       python2-babel
 Requires:       python2-setuptools
 %endif
@@ -68,7 +68,7 @@ Babel is composed of two major parts:
 %package -n python2-babel
 Summary:        %sum
 
-Requires:       python-setuptools
+Requires:       python2-setuptools
 Requires:       pytz
 
 %{?python_provide:%python_provide python2-babel}
@@ -162,6 +162,10 @@ export TZ=America/New_York
 %doc built-docs/html/*
 
 %changelog
+* Fri Dec 15 2017 Iryna Shcherbina <ishcherb@redhat.com> - 2.3.4-7
+- Update Python 2 dependency declarations to new packaging standards
+  (See https://fedoraproject.org/wiki/FinalizingFedoraSwitchtoPython3)
+
 * Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.4-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
