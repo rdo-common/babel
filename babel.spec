@@ -71,7 +71,7 @@ Babel is composed of two major parts:
 Summary:        %sum
 
 Requires:       python2-setuptools
-Requires:       pytz
+Requires:       python2-pytz
 
 %{?python_provide:%python_provide python2-babel}
 
