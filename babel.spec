@@ -17,7 +17,7 @@
 
 Name:           babel
 Version:        2.5.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 License:        BSD
@@ -142,9 +142,9 @@ rm -f "$BUILDDIR/html/.buildinfo"
 
 %check
 export TZ=America/New_York
-%{__python2} setup.py test
+%{__python2} -m pytest
 %if !%{bootstrap}
-%{__python3} setup.py test
+%{__python3} -m pytest
 %endif
 
 %files
@@ -164,6 +164,9 @@ export TZ=America/New_York
 %doc built-docs/html/*
 
 %changelog
+* Mon Jun 18 2018 Tomas Orsava <torsava@redhat.com> - 2.5.1-5
+- Run tests in pytest (as declared in BuildRequires)
+
 * Sat Jun 16 2018 Miro Hrončok <mhroncok@redhat.com> - 2.5.1-4
 - Rebuilt for Python 3.7
 
