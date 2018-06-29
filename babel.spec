@@ -16,8 +16,8 @@
 %global bootstrap 0
 
 Name:           babel
-Version:        2.5.1
-Release:        5%{?dist}
+Version:        2.6.0
+Release:        1%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 License:        BSD
@@ -164,6 +164,9 @@ export TZ=America/New_York
 %doc built-docs/html/*
 
 %changelog
+* Fri Jun 29 2018 Felix Schwarz <fschwarz@fedoraproject.org> - 2.6.0-1
+- update to upstream version 2.6.0
+
 * Mon Jun 18 2018 Tomas Orsava <torsava@redhat.com> - 2.5.1-5
 - Run tests in pytest (as declared in BuildRequires)
 
