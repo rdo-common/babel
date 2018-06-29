@@ -1,15 +1,6 @@
 %global srcname Babel
 %global sum Library for internationalizing Python applications
 
-# On fedora 24 and beyond we want to use the python3 version by default
-# (Only reason earlier versions aren't switched is that we didn't push it out
-# before the release)
-%if 0%{?fedora} >= 24
-%global default_python 3
-%else
-%global default_python 2
-%endif
-
 # There is some bootstrapping involved when upgrading Python 3
 # First of all we need babel (this package) to use sphinx
 # And pytest is at this point not yet ready
@@ -43,7 +34,6 @@ BuildRequires:  python3-freezegun
 # build the documentation
 BuildRequires:  make
 
-%if %{default_python} >= 3
 %if %{bootstrap}
 BuildRequires:  python2-sphinx
 %else
@@ -51,11 +41,6 @@ BuildRequires:  python3-sphinx
 %endif
 Requires:       python3-babel
 Requires:       python3-setuptools
-%else
-BuildRequires:  python2-sphinx
-Requires:       python2-babel
-Requires:       python2-setuptools
-%endif
 
 
 %description
@@ -121,7 +106,7 @@ BUILDDIR="$PWD/built-docs"
 rm -rf "$BUILDDIR"
 pushd docs
 make \
-%if %{default_python} >= 3 && !%{bootstrap}
+%if !%{bootstrap}
     SPHINXBUILD=sphinx-build-3 \
 %else
     SPHINXBUILD=sphinx-build \
@@ -132,13 +117,8 @@ popd
 rm -f "$BUILDDIR/html/.buildinfo"
 
 %install
-%if %{default_python} >= 3
 %py2_install
 %py3_install
-%else
-%py3_install
-%py2_install
-%endif
 
 %check
 export TZ=America/New_York
