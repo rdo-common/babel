@@ -6,9 +6,14 @@
 # And pytest is at this point not yet ready
 %global bootstrap 0
 
+# build without Python 2 support. This setting allows us to
+# "flip the switch" easily once Fedora actually drops support
+# for Python 2.
+%global with_python2 1
+
 Name:           babel
 Version:        2.6.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 License:        BSD
@@ -18,11 +23,13 @@ Patch0:         babel-2.3.4-remove-pytz-version.patch
 
 BuildArch:      noarch
 
+%if %{with_python2}
 BuildRequires:  python2-devel
 BuildRequires:  python2-setuptools
 BuildRequires:  python2-pytz
 BuildRequires:  python2-pytest
 BuildRequires:  python2-freezegun
+%endif
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 %if !%{bootstrap}
@@ -34,7 +41,7 @@ BuildRequires:  python3-freezegun
 # build the documentation
 BuildRequires:  make
 
-%if %{bootstrap}
+%if %{bootstrap} && %{with_python2}
 BuildRequires:  python2-sphinx
 %else
 BuildRequires:  python3-sphinx
@@ -52,6 +59,8 @@ Babel is composed of two major parts:
   providing access to various locale display names, localized number
   and date formatting, etc.
 
+
+%if %{with_python2}
 %package -n python2-babel
 Summary:        %sum
 
@@ -68,6 +77,8 @@ Babel is composed of two major parts:
 * a Python interface to the CLDR (Common Locale Data Repository),
   providing access to various locale display names, localized number
   and date formatting, etc.
+%endif
+
 
 %package -n python3-babel
 Summary:        %sum
@@ -99,7 +110,9 @@ Documentation for Babel
 %autosetup -n %{srcname}-%{version}
 
 %build
+%if %{with_python2}
 %py2_build
+%endif
 %py3_build
 
 BUILDDIR="$PWD/built-docs"
@@ -117,12 +130,16 @@ popd
 rm -f "$BUILDDIR/html/.buildinfo"
 
 %install
+%if %{with_python2}
 %py2_install
+%endif
 %py3_install
 
 %check
 export TZ=America/New_York
+%if %{with_python2}
 %{__python2} -m pytest
+%endif
 %if !%{bootstrap}
 %{__python3} -m pytest
 %endif
@@ -132,9 +149,11 @@ export TZ=America/New_York
 %license LICENSE
 %{_bindir}/pybabel
 
+%if %{with_python2}
 %files -n python2-babel
 %{python2_sitelib}/Babel-%{version}-py*.egg-info
 %{python2_sitelib}/babel
+%endif
 
 %files -n python3-babel
 %{python3_sitelib}/Babel-%{version}-py*.egg-info
@@ -144,6 +163,9 @@ export TZ=America/New_York
 %doc built-docs/html/*
 
 %changelog
+* Fri Jun 29 2018 Felix Schwarz <fschwarz@fedoraproject.org> - 2.6.0-2
+- add setting to build without Python 2 support
+
 * Fri Jun 29 2018 Felix Schwarz <fschwarz@fedoraproject.org> - 2.6.0-1
 - update to upstream version 2.6.0
 
