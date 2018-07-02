@@ -4,7 +4,7 @@
 # There is some bootstrapping involved when upgrading Python 3
 # First of all we need babel (this package) to use sphinx
 # And pytest is at this point not yet ready
-%global bootstrap 0
+%global bootstrap 1
 
 # build without Python 2 support. This setting allows us to
 # "flip the switch" easily once Fedora actually drops support
