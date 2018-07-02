@@ -13,7 +13,7 @@
 
 Name:           babel
 Version:        2.6.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 License:        BSD
@@ -163,6 +163,9 @@ export TZ=America/New_York
 %doc built-docs/html/*
 
 %changelog
+* Mon Jul 02 2018 Miro Hrončok <mhroncok@redhat.com> - 2.6.0-3
+- Rebuilt for Python 3.7
+
 * Fri Jun 29 2018 Felix Schwarz <fschwarz@fedoraproject.org> - 2.6.0-2
 - add setting to build without Python 2 support
 
