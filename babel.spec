@@ -4,7 +4,7 @@
 # There is some bootstrapping involved when upgrading Python 3
 # First of all we need babel (this package) to use sphinx
 # And pytest is at this point not yet ready
-%global bootstrap 1
+%global bootstrap 0
 
 # build without Python 2 support. This setting allows us to
 # "flip the switch" easily once Fedora actually drops support
@@ -13,7 +13,7 @@
 
 Name:           babel
 Version:        2.6.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 License:        BSD
@@ -163,6 +163,9 @@ export TZ=America/New_York
 %doc built-docs/html/*
 
 %changelog
+* Mon Jul 02 2018 Miro Hrončok <mhroncok@redhat.com> - 2.6.0-4
+- Rebuilt for Python 3.7
+
 * Mon Jul 02 2018 Miro Hrončok <mhroncok@redhat.com> - 2.6.0-3
 - Rebuilt for Python 3.7
 
