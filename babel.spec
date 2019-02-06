@@ -10,6 +10,14 @@
 # "flip the switch" easily once Fedora actually drops support
 # for Python 2.
 %global with_python2 1
+%if 0%{?fedora} || 0%{?rhel} > 7
+%global with_python3 1
+%global with_python2 0
+%else
+%global with_python3 0
+%global with_python2 1
+%endif
+
 
 Name:           babel
 Version:        2.6.0
@@ -28,8 +36,9 @@ BuildRequires:  python2-devel
 BuildRequires:  python2-setuptools
 BuildRequires:  python2-pytz
 BuildRequires:  python2-pytest
-BuildRequires:  python2-freezegun
+BuildRequires:  python-freezegun
 %endif
+%if %{with_python3}
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 %if !%{bootstrap}
@@ -37,17 +46,20 @@ BuildRequires:  python3-pytz
 BuildRequires:  python3-pytest
 BuildRequires:  python3-freezegun
 %endif
+%endif
 
 # build the documentation
 BuildRequires:  make
 
-%if %{bootstrap} && %{with_python2}
+%if %{with_python2}
 BuildRequires:  python2-sphinx
-%else
-BuildRequires:  python3-sphinx
+Requires:       python2-babel
 %endif
+
+%if %{with_python3}
+BuildRequires:  python3-sphinx
 Requires:       python3-babel
-Requires:       python3-setuptools
+%endif
 
 
 %description
@@ -80,6 +92,7 @@ Babel is composed of two major parts:
 %endif
 
 
+%if %{with_python3}
 %package -n python3-babel
 Summary:        %sum
 
@@ -96,6 +109,7 @@ Babel is composed of two major parts:
 * a Python interface to the CLDR (Common Locale Data Repository),
   providing access to various locale display names, localized number
   and date formatting, etc.
+%endif
 
 %package doc
 Summary:        Documentation for Babel
@@ -113,13 +127,15 @@ Documentation for Babel
 %if %{with_python2}
 %py2_build
 %endif
+%if %{with_python3}
 %py3_build
+%endif
 
 BUILDDIR="$PWD/built-docs"
 rm -rf "$BUILDDIR"
 pushd docs
 make \
-%if !%{bootstrap}
+%if %{with_python3}
     SPHINXBUILD=sphinx-build-3 \
 %else
     SPHINXBUILD=sphinx-build \
@@ -133,14 +149,16 @@ rm -f "$BUILDDIR/html/.buildinfo"
 %if %{with_python2}
 %py2_install
 %endif
+%if %{with_python3}
 %py3_install
+%endif
 
 %check
 export TZ=America/New_York
 %if %{with_python2}
 %{__python2} -m pytest
 %endif
-%if !%{bootstrap}
+%if %{with_python3}
 %{__python3} -m pytest
 %endif
 
@@ -155,9 +173,11 @@ export TZ=America/New_York
 %{python2_sitelib}/babel
 %endif
 
+%if %{with_python3}
 %files -n python3-babel
 %{python3_sitelib}/Babel-%{version}-py*.egg-info
 %{python3_sitelib}/babel
+%endif
 
 %files doc
 %doc built-docs/html/*
